@@ -1,8 +1,6 @@
 const express = require('express');
-const Product = require('./models/product');
 
 const app = express();
-const path = require('path'); // Import the 'path' module
 
 // Middleware to parse request bodies
 app.use(express.json()); // Parse JSON bodies
