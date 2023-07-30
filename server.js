@@ -1,41 +1,29 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
+const path = require('path');
 const app = express();
 
-// Middleware to parse request bodies
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(bodyParser.json());
 
+const port = process.env.PORT || 3000;
 
-const MongoClient = require('mongodb').MongoClient;
-require('dotenv').config();
-const connectionString = process.env.DB_STRING;
+// Serve the static files from the public folder
+app.use(express.static(path.join(__dirname, 'client')));
 
-MongoClient.connect(connectionString)
-  .then(client => {
-    console.log('Connected to database');
-    const db = client.db('fake-shop');
-    const productsCollection = db.collection('products');
-    
-    // CRUD requests
-    // Create a new product
-    app.post('/products', async (req, res) => {
-      const newProduct = req.body;
-      console.log('newProduct:', newProduct);
-    
-      try {
-        const result = await productsCollection.insertOne(newProduct);
-        console.log('result:', result);
-        res.status(201).json(newProduct);
-      } catch (error) {
-        console.log('Error adding product:', error);
-        res.status(500).json({ error });
-      }
-    });
-  })
-  .catch(error => console.log(error));
+// POST endpoint for login
+app.post('/account', (req, res) => {
+  const { username, password } = req.body;
 
-const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  // Check if the username and password match the expected values
+  if (username === 'karina_test' && password === 'karina_password') {
+    // Redirect to the account page upon successful login
+    res.redirect('/account.html');
+  } else {
+    res.status(401).json({ error: 'Invalid credentials' });
+  }
 });
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`)
+})
