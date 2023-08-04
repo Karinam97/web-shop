@@ -15,11 +15,10 @@
             <!-- Error message display -->
             <p id="errorMessage" style="color: red; display: block;"></p>
 
-            <input type="submit" value="Login">
+            <button id="btn" type="button">Login</button>
         </form>
         <script>
-            document.getElementById('loginForm').addEventListener('submit', function (event) {
-                event.preventDefault(); // Prevent default form submission behavior
+            document.getElementById('btn').addEventListener('click', function (event) {
 
                 const formData = {
                     username: document.getElementById('username').value,
@@ -47,7 +46,7 @@
                 .then(htmlContent => {
                     // Replace the current page's content with the received HTML content
                     document.documentElement.innerHTML = htmlContent;
-                    history.pushState({}, '', '/account');
+                    /* history.pushState({}, '', '/account'); */
 
                 })
                 .catch(error => {
