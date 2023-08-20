@@ -1,0 +1,8 @@
+body {
+    background: linear-gradient(90deg, rgb(0 0 0 / 41%) 0%, rgb(171 119 119) 35%, rgb(139 119 98 / 71%) 100%);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+    text-align: center;
+}

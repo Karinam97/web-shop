@@ -8,16 +8,16 @@ function logout() {
     })
     .then(response => {
         // Receive the HTML content from the response
-        return response.text();
+        return response.text()
     })
     .then(htmlContent => {
         // Update the current page's content with the received HTML content
-        document.documentElement.innerHTML = htmlContent;
+        document.documentElement.innerHTML = htmlContent
 
         // Modify the URL to remove "/logout" from the path
-        history.replaceState({}, '', '/');
+        history.replaceState({}, '', '/')
     })
     .catch(error => {
-        console.error('Error:', error);
-    });
+        console.error('Error:', error)
+    })
 }

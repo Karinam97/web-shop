@@ -1,25 +1,27 @@
-const express = require("express");
+const express = require("express")
+const path = require("path")
+const jwt = require("jsonwebtoken")
 
-const router = express.Router();
+const router = express.Router()
 
-const jwt = require("jsonwebtoken");
+router.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/views/login.html"))
+})
 
 router.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  // Receiving data from client
+  const { username, password } = req.body
 
   // Check if the username and password match the expected values
-
   if (username === "karina" && password === "123") {
-    const user = { username: "karina", name: "Karina" };
+    const user = { username: "karina", name: "Karina" }
 
-    const token = jwt.sign(user, "super-secret-key", { expiresIn: "1m" });
+    const token = jwt.sign(user, "super-secret-key", { expiresIn: "1m" })
 
-    res.json({ token });
+    res.json({ token })
   } else {
-    res.status(401).json({ error: "Invalid credentials" });
+    res.status(401).json({ error: "Invalid credentials" })
   }
-});
+})
 
-router.get("/account", (req, res) => {});
-
-module.exports = router;
+module.exports = router

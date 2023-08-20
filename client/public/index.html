@@ -2,8 +2,24 @@
 <html>
     <head>
         <title>Page title</title>
+        <link rel="stylesheet" type="text/css" href="/css/styles.css">
     </head>
     <body>
         <h1>Homepage</h1>
+        <!-- Conditional buttons display -->
+        <button id="loginBtn" onclick="window.location.href='/login'">Login</button>
+        <button id="accountBtn" onclick="window.location.href='/account'">Account</button>
     </body>
+    <script>
+        window.onload = () => {
+            const token = localStorage.getItem("token")
+            if (token) {
+            document.getElementById("accountBtn").style.display = "block"
+            document.getElementById("loginBtn").style.display = "none"
+        } else {
+            document.getElementById("accountBtn").style.display = "none"
+            document.getElementById("loginBtn").style.display = "block"
+        }
+    }
+    </script> 
 </html>
