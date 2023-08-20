@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <h2>Login Form</h2>
+
+    <form id="loginForm">
+      <label for="username">Username:</label>
+
+      <input type="text" id="username" name="username" required /><br />
+
+      <label for="password">Password:</label>
+
+      <input type="password" id="password" name="password" required /><br />
+
+      <!-- Error message display -->
+
+      <p id="errorMessage" style="color: red; display: block"></p>
+
+      <button id="btn" type="button">Login</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("btn")
+        .addEventListener("click", function (event) {
+          const formData = {
+            username: document.getElementById("username").value,
+
+            password: document.getElementById("password").value,
+          };
+
+          // Send JSON data using Fetch API
+
+          fetch("http://localhost:3000/account", {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+
+            .then((data) => {
+              if (data.token) {
+                // Decode the token to get the expiry date
+
+                const payload = JSON.parse(atob(data.token.split(".")[1]));
+
+                // Save the token to localStorage
+
+                localStorage.setItem("token", data.token);
+
+                localStorage.setItem("tokenExpiry", payload.exp);
+
+                localStorage.setItem("name", payload.name);
+
+                // Redirect to the account page
+
+                window.location.href = "/account.html";
+              } else {
+                // Handle login failure
+
+                document.getElementById("errorMessage").innerText = data.error;
+
+                document.getElementById("username").style.border =
+                  "1px solid red";
+
+                document.getElementById("password").style.border =
+                  "1px solid red";
+              }
+            })
+
+            .catch((error) => console.error("Error:", error));
+        });
+    </script>
+  </body>
+</html>

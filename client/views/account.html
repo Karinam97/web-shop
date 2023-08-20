@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Welcome to Your Account</title>
+  </head>
+
+  <body>
+    <h1 id="name"></h1>
+
+    <h2>Welcome to Your Account</h2>
+
+    <p>Here is your account content.</p>
+
+    <button>
+      <a href="/">Log out</a>
+    </button>
+  </body>
+
+  <script>
+    // Get the user's name from localStorage
+
+    const name = localStorage.getItem("name");
+
+    // Insert the name into the span
+
+    document.getElementById("name").innerText = name;
+
+    // Get the current time and the token's expiry time
+
+    const now = Math.floor(Date.now() / 1000);
+
+    const tokenExpiry = localStorage.getItem("tokenExpiry");
+
+    // If the token has expired, clear the token from localStorage and redirect to the login page
+
+    if (now >= tokenExpiry) {
+      localStorage.removeItem("token");
+
+      localStorage.removeItem("tokenExpiry");
+
+      window.location.href = "/";
+    }
+  </script>
+</html>
