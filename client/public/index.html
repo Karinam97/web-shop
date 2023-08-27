@@ -12,14 +12,18 @@
     </body>
     <script>
         window.onload = () => {
-            const token = localStorage.getItem("token")
-            if (token) {
-            document.getElementById("accountBtn").style.display = "block"
-            document.getElementById("loginBtn").style.display = "none"
-        } else {
-            document.getElementById("accountBtn").style.display = "none"
-            document.getElementById("loginBtn").style.display = "block"
-        }
+        fetch("/isAuthenticated")
+            .then(response => response.json())
+            .then(data => {
+                if (data.isAuthenticated) {
+                    document.getElementById("accountBtn").style.display = "block"
+                    document.getElementById("loginBtn").style.display = "none"
+                } else {
+                    document.getElementById("accountBtn").style.display = "none"
+                    document.getElementById("loginBtn").style.display = "block"
+                }
+            })
+            .catch(error => console.error("Error:", error))
     }
     </script> 
 </html>

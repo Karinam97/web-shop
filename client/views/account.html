@@ -18,26 +18,31 @@
     </div>
   </body>
   <script>
-    // Get the user's name from localStorage
-    const name = localStorage.getItem("name")
+    // Function to get the user's name from the server
+    const getName = () => {
+      fetch("/user")
+        .then(response => response.json())
+        .then(data => {
+          if (data.name) {
+            document.getElementById("name").innerText = data.name
+          } else {
+            window.location.href = "/"
+          }
+        })
+        .catch(error => console.error("Error:", error))
+    }
 
-    // Insert the name
-    document.getElementById("name").innerText = name
-
-    // Get the current time and the token's expiry time
-    const now = Math.floor(Date.now() / 1000)
-    const tokenExpiry = localStorage.getItem("tokenExpiry")
-
+    // Function to log out the user
     const logout = () => {
-      localStorage.removeItem("token")
-      localStorage.removeItem("tokenExpiry")
-      localStorage.removeItem("name")
-      window.location.href = "/"
-    }
-    // If the token has expired, clear the token from localStorage and redirect to the login page
-    if (now >= tokenExpiry) {
-      logout()
+      fetch("/logout", { method: "POST" })
+        .then((response) => response.json())
+        .then(() => {
+          window.location.href = "/"
+        })
+        .catch((error) => console.error("Error:", error))
     }
 
+     // Get the user's name when the page loads
+     window.onload = getName
   </script>
 </html>
