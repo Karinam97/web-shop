@@ -1,5 +1,4 @@
 const express = require("express")
-const path = require("path")
 const fs = require("fs")
 const auth = require("../middleware/auth")
 
@@ -11,11 +10,11 @@ router.get("/user", auth, (req, res) => {
         console.log(err)
         return res.sendStatus('500')
       }
-  
+     // TODO: move to helper function
       const users = JSON.parse(data)
-      const user = users.find(user => user.username === req.user.username)
+      const user = users.find(user => user.fullName === req.user.fullName)
   
-      user ? res.json({ name: user.name}) : res.sendStatus(404)
+      user ? res.json({ fullName: user.fullName}) : res.sendStatus(404)
     })
 })
 

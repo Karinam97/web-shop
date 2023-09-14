@@ -1,10 +1,10 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const login = require("./router/login")
+const register = require("./router/register")
 const user = require("./router/user")
 const auth = require("./middleware/auth")
 const path = require("path")
-const fs = require('fs')
 const jwt = require("jsonwebtoken")
 
 const cookie_parser=require('cookie-parser')
@@ -21,13 +21,22 @@ app.use(express.static(path.join(__dirname, "client/public")))
 // Endpoints for login
 app.use(login)
 
+// Endpoints for registration
+app.use(register)
+
 // Serve the account page
-app.get("/account", auth, (req, res) => {
+app.get("/account", auth, (_, res) => {
     res.sendFile(path.join(__dirname, "client/views/account.html"))
 })
 
 app.use(user)
 
+/**
+ *  TODO: 
+ *    - create one main route /account and store all other routes related to account 
+ *      e.g. /login , /register , /user ( ?overview? )
+ *           /account/login , /account/register
+ */
 
 app.get("/isAuthenticated", (req, res) => {
   const token = req.cookies.token
@@ -44,3 +53,12 @@ app.get("/isAuthenticated", (req, res) => {
 app.listen(port, () => {
   console.log(`Server listening on port http://localhost:${port}`)
 })
+
+
+/**
+ *  TODO:
+ *    - encrypt password ( e.g. use bcryptjs )
+ *    - convert application from JS to TS ( setup webpack first before converting to TS )
+ *    - replace json with mongoDB
+ *    - use React instead of pure HTML, JS
+ */

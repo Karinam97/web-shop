@@ -9,6 +9,10 @@
       <h1 id="name"></h1>
       <h2>Welcome to Your Account</h2>
       <p>Here is your account content.</p>
+      <!-- TODO: 
+        - create update user details button, new html for it and new rest handler to update
+        - create delete user account button and new rest handler
+      -->
       <div>
         <button onclick="logout()">Log out</button>
         <button>
@@ -23,8 +27,8 @@
       fetch("/user")
         .then(response => response.json())
         .then(data => {
-          if (data.name) {
-            document.getElementById("name").innerText = data.name
+          if (data.fullName) {
+            document.getElementById("name").innerText = data.fullName
           } else {
             window.location.href = "/"
           }
@@ -32,7 +36,6 @@
         .catch(error => console.error("Error:", error))
     }
 
-    // Function to log out the user
     const logout = () => {
       fetch("/logout", { method: "POST" })
         .then((response) => response.json())

@@ -1,4 +1,14 @@
 [
-    { "username": "karina", "name": "Karina", "password": "123", "email": "karina@example.com", "address": {"street":"some street", "house number": 45, "postcode": "DE12 34DE"} },
-    { "username": "adam", "name": "Adam", "password": "321", "email": "adam@example.com", "address": {"street":"some street", "house number": 45, "postcode": "DE12 34DE"} }
+  {
+    "username": "karina",
+    "fullName": "Karina",
+    "password": "123",
+    "email": "karina@example.com"
+  },
+  {
+    "username": "Charlotte",
+    "fullName": "da",
+    "email": "da",
+    "password": "password"
+  }
 ]

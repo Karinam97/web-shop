@@ -6,9 +6,11 @@
     </head>
     <body>
         <h1>Homepage</h1>
-        <!-- Conditional buttons display -->
-        <button id="loginBtn" onclick="window.location.href='/login'">Login</button>
-        <button id="accountBtn" onclick="window.location.href='/account'">Account</button>
+        <div style="display: flex; justify-content: space-around;">
+            <button id="loginBtn" onclick="window.location.href='/login'" style="display: none;">Login</button>
+            <button id="registerBtn" onclick="window.location.href='/register'" style="display: none;">Register</button>
+        </div>
+        <button id="accountBtn" onclick="window.location.href='/account'" style="display: none;">Account</button>
     </body>
     <script>
         window.onload = () => {
@@ -18,9 +20,11 @@
                 if (data.isAuthenticated) {
                     document.getElementById("accountBtn").style.display = "block"
                     document.getElementById("loginBtn").style.display = "none"
+                    document.getElementById("registerBtn").style.display = "none"
                 } else {
                     document.getElementById("accountBtn").style.display = "none"
                     document.getElementById("loginBtn").style.display = "block"
+                    document.getElementById("registerBtn").style.display = "block"
                 }
             })
             .catch(error => console.error("Error:", error))
