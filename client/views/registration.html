@@ -38,7 +38,7 @@
             password: document.getElementById("password").value,
           }
           // Send JSON data using Fetch API
-          fetch("http://localhost:3000/register", {
+          fetch("/account/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

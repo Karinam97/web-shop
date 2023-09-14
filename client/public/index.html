@@ -7,14 +7,14 @@
     <body>
         <h1>Homepage</h1>
         <div style="display: flex; justify-content: space-around;">
-            <button id="loginBtn" onclick="window.location.href='/login'" style="display: none;">Login</button>
-            <button id="registerBtn" onclick="window.location.href='/register'" style="display: none;">Register</button>
+            <button id="loginBtn" onclick="window.location.href='/account/login'" style="display: none;">Login</button>
+            <button id="registerBtn" onclick="window.location.href='/account/register'" style="display: none;">Register</button>
         </div>
-        <button id="accountBtn" onclick="window.location.href='/account'" style="display: none;">Account</button>
+        <button id="accountBtn" onclick="window.location.href='/account/overview'" style="display: none;">Account</button>
     </body>
     <script>
         window.onload = () => {
-        fetch("/isAuthenticated")
+        fetch("/account/isAuthenticated")
             .then(response => response.json())
             .then(data => {
                 if (data.isAuthenticated) {

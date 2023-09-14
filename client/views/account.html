@@ -24,7 +24,7 @@
   <script>
     // Function to get the user's name from the server
     const getName = () => {
-      fetch("/user")
+      fetch("/account/user")
         .then(response => response.json())
         .then(data => {
           if (data.fullName) {
@@ -37,7 +37,7 @@
     }
 
     const logout = () => {
-      fetch("/logout", { method: "POST" })
+      fetch("/account/logout", { method: "POST" })
         .then((response) => response.json())
         .then(() => {
           window.location.href = "/"
