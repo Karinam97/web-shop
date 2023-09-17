@@ -28,7 +28,7 @@
           }
 
           // Send JSON data using Fetch API
-          fetch("http://localhost:3000/login", {
+          fetch("/account/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -37,15 +37,7 @@
           })
             .then((response) => response.json())
             .then((data) => {
-              if (data.token) {
-                // Decode the token to get the expiry date
-                const payload = JSON.parse(atob(data.token.split(".")[1]))
-
-                // Save the token to localStorage
-                localStorage.setItem("token", data.token)
-                localStorage.setItem("tokenExpiry", payload.exp)
-                localStorage.setItem("name", payload.name)
-
+              if (data.success) {
                 // Redirect to the home page
                 window.location.href = "/"
               } else {
@@ -57,7 +49,9 @@
                   "1px solid red"
               }
             })
-            .catch((error) => console.error("Error:", error))
+            .catch((error) => {
+              console.error("Error:", error)
+            })
         })
     </script>
   </body>

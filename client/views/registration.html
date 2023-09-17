@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+  </head>
+  <body>
+    <h2>Registration Form</h2>
+    <div id="form" style="display: flex; flex-direction: column;">
+      <form id="registerForm">
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required /><br />
+
+        <label for="fullName">Full name:</label>
+        <input type="text" id="fullName" name="fullName" required /><br />
+        <!-- TODO: check for valid email e.g. should include @ etc.. -->
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required /><br />
+        <!-- TODO: check validation of password, ask to confirm password -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required /><br />
+
+        <!-- Error message display -->
+        <p id="errorMessage" style="color: red; display: block"></p>
+        <button id="btn" type="button">Register</button>
+      </form>
+    </div>
+    <script>
+      document
+        .getElementById("btn")
+        .addEventListener("click", event => {
+          const formData = {
+            username: document.getElementById("username").value,
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          }
+          // Send JSON data using Fetch API
+          fetch("/account/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                // Redirect to the home page
+                window.location.href = "/"
+              } else {
+                // Handle registration failure
+                const errorMessage = document.getElementById("errorMessage")
+                errorMessage.innerText = data.error
+                errorMessage.style.display = "block"
+              }
+            })
+            .catch((error) => {
+                console.error("Error:", error)})
+        })
+    </script>
+  </body>
+</html>
