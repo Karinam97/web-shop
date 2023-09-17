@@ -3,13 +3,13 @@ const path = require("path")
 const fs = require('fs')
 const jwt = require("jsonwebtoken")
 const auth = require("../middleware/auth")
-const checkUser = require("../helpers/checkUser")
+const {checkUser, getAllUsers} = require("../helpers/checkUser")
 
 const router = express.Router()
 
 // LOGIN
 router.get("/login", (_, res) => {
-    res.sendFile(path.join(__dirname, "../client/views/login.html"))
+    res.sendFile(path.join(__dirname, "../../client/views/login.html"))
 })
 
 router.post("/login", (req, res) => {
@@ -34,7 +34,7 @@ router.post("/logout", (_, res) => {
 
 // REGISTER
 router.get("/register", (_, res) => {
-    res.sendFile(path.join(__dirname, "../client/views/registration.html"))
+    res.sendFile(path.join(__dirname, "../../client/views/registration.html"))
   })
   
 router.post("/register", (req, res) => {
@@ -52,9 +52,10 @@ if( user ) {
     email,
     password // TODO need password encryption 
     }
+    const users = getAllUsers()
     users.push(newUser)
     // Write the updated user data back to the JSON file
-    fs.writeFileSync(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 2))
+    fs.writeFileSync(path.join(__dirname, '../../data/users.json'), JSON.stringify(users, null, 2))
 
     // store token for new user so after successful registration can stay logged in
     const token = jwt.sign(newUser, "super-secret-key", { expiresIn: "1m" })
@@ -67,13 +68,14 @@ if( user ) {
 // ACCOUNT OVERVIEW
 
 router.get("/overview", auth, (_, res) => {
-    res.sendFile(path.join(__dirname, "../client/views/account.html"))
+    res.sendFile(path.join(__dirname, "/../../client/views/account.html"))
 })
 
 // GET USER DETAILS
 
 router.get("/user", auth, (req, res) => {
-    fs.readFile('./data/users.json', (err, data) => {
+  const usersFilePath = path.join(__dirname, '../../data/users.json')
+    fs.readFile(usersFilePath, (err, data) => {
       if(err) {
         console.log(err)
         return res.sendStatus('500')

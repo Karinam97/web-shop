@@ -12,7 +12,7 @@ app.use(bodyParser.json(), cookie_parser())
 const port = process.env.PORT || 3000
 
 // Serve the static files from the public folder
-app.use(express.static(path.join(__dirname, "client/public")))
+app.use(express.static(path.join(__dirname, "../client/public")))
 
 // Covers all account related routes e.g. /login, /registration
 app.use("/account", accountRouter);
