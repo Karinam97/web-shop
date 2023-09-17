@@ -2,10 +2,11 @@
   "name": "web-shop",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./server/server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "dev": "nodemon server.js"
+    "start": "node ./dist/server.js",
+    "dev": "nodemon ./server/server.js",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,9 @@
   },
   "devDependencies": {
     "concurrently": "^8.2.0",
-    "nodemon": "^2.0.22"
+    "copy-webpack-plugin": "^11.0.0",
+    "nodemon": "^2.0.22",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
   }
 }
