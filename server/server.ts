@@ -1,7 +1,7 @@
 const express = require("express")
 const accountRouter = require("./router/account");
 const bodyParser = require("body-parser")
-const path = require("path")
+import path from "path";
 
 const cookie_parser=require('cookie-parser')
 

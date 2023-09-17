@@ -1,4 +1,4 @@
-const express = require("express")
+import express from "express"
 const path = require("path")
 const fs = require('fs')
 const jwt = require("jsonwebtoken")
@@ -73,27 +73,27 @@ router.get("/overview", auth, (_, res) => {
 
 // GET USER DETAILS
 
-router.get("/user", auth, (req, res) => {
+router.get("/user", auth, (req:any, res:any) => {
   const usersFilePath = path.join(__dirname, '../../data/users.json')
-    fs.readFile(usersFilePath, (err, data) => {
+    fs.readFile(usersFilePath, (err:any, data:any) => {
       if(err) {
         console.log(err)
-        return res.sendStatus('500')
+        return res.sendStatus(500)
       }
       const users = JSON.parse(data)
-      const user = users.find(user => user.fullName === req.user.fullName)
+      const user = users.find((user:any) => user.fullName === req.user.fullName)
   
       user ? res.json({ fullName: user.fullName}) : res.sendStatus(404)
     })
 })
 
 // AUTHENTICATE USER
-router.get("/isAuthenticated", (req, res) => {
+router.get("/isAuthenticated", (req:any, res:any) => {
     const token = req.cookies.token
   
     if (!token) return res.json({ isAuthenticated: false })
   
-    jwt.verify(token, "super-secret-key", (err, user) => {
+    jwt.verify(token, "super-secret-key", (err:any, user:any) => {
         if (err) return res.json({ isAuthenticated: false })
         return res.json({ isAuthenticated: true })
     })

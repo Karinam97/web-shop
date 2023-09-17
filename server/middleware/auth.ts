@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken")
 
-const auth = (req, res, next) => {
+const auth = (req: any, res:any, next:any) => {
     const token = req.cookies.token
 
     if(!token) return res.redirect('/')
 
-    jwt.verify(token, "super-secret-key", (err, user) => {
+    jwt.verify(token, "super-secret-key", (err:any, user:any) => {
         if (err) return res.redirect('/')
         req.user = user
         next();

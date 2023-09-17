@@ -1,11 +1,11 @@
 const path = require("path")
 const fs = require('fs')
 
-const checkUser = (username) => {
+const checkUser = (username:string) => {
     const users = getAllUsers()
     
     // Check if user exists
-    return users.find(u => u.username === username)
+    return users.find((u:any) => u.username === username)
 }
 
 const getAllUsers = () => {
