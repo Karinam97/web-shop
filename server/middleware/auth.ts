@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken")
+import jwt from "jsonwebtoken"
 
-const auth = (req: any, res:any, next:any) => {
+export const auth = (req: any, res:any, next:any) => {
     const token = req.cookies.token
 
     if(!token) return res.redirect('/')
@@ -12,4 +12,3 @@ const auth = (req: any, res:any, next:any) => {
       })
 }
 
-module.exports = auth

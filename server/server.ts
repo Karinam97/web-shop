@@ -1,9 +1,8 @@
-const express = require("express")
-const accountRouter = require("./router/account");
-const bodyParser = require("body-parser")
-import path from "path";
-
-const cookie_parser=require('cookie-parser')
+import bodyParser from "body-parser"
+import cookie_parser from 'cookie-parser'
+import express from "express"
+import path from "path"
+import accountRouter from "./router/account"
 
 const app = express()
 
@@ -24,8 +23,7 @@ app.listen(port, () => {
 
 /**
  *  TODO:
- *    - encrypt password ( e.g. use bcryptjs )
- *    - convert application from JS to TS ( setup webpack first before converting to TS )
- *    - replace json with mongoDB
  *    - use React instead of pure HTML, JS
+ *    - setup grapqhl
+ *    - replace json with mongoDB
  */

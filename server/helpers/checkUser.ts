@@ -1,18 +1,14 @@
-const path = require("path")
-const fs = require('fs')
+import { User } from "../types"
+import path from "path"
+import fs from 'fs'
 
-const checkUser = (username:string) => {
+export const checkUser = (username:string) => {
     const users = getAllUsers()
     
     // Check if user exists
-    return users.find((u:any) => u.username === username)
+    return users.find((u:User) => u.username === username)
 }
 
-const getAllUsers = () => {
-    return JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/users.json')))
-}
-
-module.exports = {
-    checkUser,
-    getAllUsers,
+export const getAllUsers = ():User[] => {
+    return JSON.parse(fs.readFileSync(path.join(__dirname, '../../data/users.json')).toString())
 }
