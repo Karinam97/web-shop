@@ -4,5 +4,11 @@
     "fullName": "Karina",
     "email": "karina@example.com",
     "password": "$2a$10$daeRK3ANiqE4.cmMRRggE.F.fx2oo/lXmq0ns97rgyB5kWm38M1k2"
+  },
+  {
+    "username": "name.surname@example.com",
+    "fullName": "a",
+    "email": "a",
+    "password": "$2a$10$QCQxT8dqb3hobQsbA40yI.LDDZ01eX1yX8qIGYzYRL0MWTCUBvGl2"
   }
 ]

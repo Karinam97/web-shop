@@ -87,17 +87,9 @@ router.get("/overview", auth, (_, res) => {
 // GET USER DETAILS
 
 router.get("/user", auth, (req:Req, res:Response) => {
-  const usersFilePath = path.join(__dirname, '../../data/users.json')
-    fs.readFile(usersFilePath, (err:any, data:any) => {
-      if(err) {
-        console.log(err)
-        return res.sendStatus(500)
-      }
-      const users = JSON.parse(data)
-      const user = users.find((user:any) => user.fullName === req.body.fullName)
-  
-      user ? res.json({ fullName: user.fullName}) : res.sendStatus(404)
-    })
+  const users = getAllUsers()
+  const user = users.find((user:User) => user.fullName === req.body.fullName)
+  user ? res.json({ fullName: user.fullName}) : res.sendStatus(404)
 })
 
 // AUTHENTICATE USER

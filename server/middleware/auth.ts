@@ -7,7 +7,7 @@ export const auth = (req: any, res:any, next:any) => {
 
     jwt.verify(token, "super-secret-key", (err:any, user:any) => {
         if (err) return res.redirect('/')
-        req.user = user
+        req.body = user
         next();
       })
 }
