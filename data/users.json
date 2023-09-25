@@ -1,8 +1,8 @@
 [
   {
-    "username": "karina",
+    "username": "karinam",
     "fullName": "Karina",
-    "password": "123",
-    "email": "karina@example.com"
+    "email": "karina@example.com",
+    "password": "$2a$10$daeRK3ANiqE4.cmMRRggE.F.fx2oo/lXmq0ns97rgyB5kWm38M1k2"
   }
 ]

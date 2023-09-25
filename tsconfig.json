@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // Specify ECMAScript version
+    "module": "ES2015", // Specify the module system
+    "moduleResolution": "node",
+    "outDir": "./server", // Use the same output directory as in webpack
+    "rootDir": "./server", // Use the same source directory as in webpack
+    "strict": true, // Enable strict type checking
+    "esModuleInterop": true, // Enable compatibility with CommonJS modules
+    "skipLibCheck": true, // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true // Enforce consistent file naming (case-sensitive)
+  },
+  "include": ["server/**/*.ts"], // Specify which files should be included for compilation
+  "exclude": ["node_modules"] // Specify which files or directories should be excluded from compilation
+}

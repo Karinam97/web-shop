@@ -1,30 +1,41 @@
-const express = require("express")
-const path = require("path")
-const fs = require('fs')
-const jwt = require("jsonwebtoken")
-const auth = require("../middleware/auth")
-const {checkUser, getAllUsers} = require("../helpers/checkUser")
+import bcrypt from "bcryptjs"
+import express, { Request, Response } from "express"
+import fs from 'fs'
+import jwt from "jsonwebtoken"
+import path from "path"
+import { checkUser, getAllUsers } from "../helpers/checkUser"
+import { encryptPassword } from "../helpers/passwordHashing"
+import { auth } from "../middleware/auth"
+import { User } from "../types"
 
 const router = express.Router()
+type Req = Request<{},{},User>
 
 // LOGIN
 router.get("/login", (_, res) => {
     res.sendFile(path.join(__dirname, "../../client/views/login.html"))
 })
 
-router.post("/login", (req, res) => {
-    const { username, password } = req.body
+router.post("/login", async (req: Req, res:Response) => {
+  const { username, password } = req.body
   
     const user = checkUser(username)
-    
-    // Check if entered password matches the one in database
-    if(user && password === user.password){
-      const token = jwt.sign(user, "super-secret-key", { expiresIn: "1m" })
-      res.cookie("token", token, {httpOnly: true, secure: false, sameSite: 'strict'})
-      res.status(200).json({ success: true, message: "Login successful" })
+
+    if(user){
+      // Verify the entered password with the stored hashed password
+      const passwordMatch = await bcrypt.compare(password, user.password)
+
+      // Check if entered password matches the one in database
+      if(passwordMatch){
+        const token = jwt.sign(user, "super-secret-key", { expiresIn: "1m" })
+        res.cookie("token", token, {httpOnly: true, secure: false, sameSite: 'strict'})
+        res.status(200).json({ success: true, message: "Login successful" })
+      } else {
+        res.status(401).json({ success: false, error: "Invalid password" })
+      }
     } else {
-      res.status(401).json({ success: false, error: "Invalid credentials" })
-    }
+        res.status(401).json({ success: false, error: "User not found" })
+      }
 })
 
 router.post("/logout", (_, res) => {
@@ -37,7 +48,7 @@ router.get("/register", (_, res) => {
     res.sendFile(path.join(__dirname, "../../client/views/registration.html"))
   })
   
-router.post("/register", (req, res) => {
+router.post("/register", async (req: Req, res:Response) => {
 const { username, fullName, email, password } = req.body
 
 const user = checkUser(username)
@@ -45,12 +56,14 @@ const user = checkUser(username)
 if( user ) {
     res.status(409).json({ success: false, error: "This username already taken. Try another one" })
 } else {
-    // if user doesn't exist add user details to existing users.json file
+
+    const hashedPassword = await encryptPassword(password)  
+  
     const newUser = {
     username,
     fullName,
     email,
-    password // TODO need password encryption 
+    password:hashedPassword
     }
     const users = getAllUsers()
     users.push(newUser)
@@ -73,30 +86,30 @@ router.get("/overview", auth, (_, res) => {
 
 // GET USER DETAILS
 
-router.get("/user", auth, (req, res) => {
+router.get("/user", auth, (req:Req, res:Response) => {
   const usersFilePath = path.join(__dirname, '../../data/users.json')
-    fs.readFile(usersFilePath, (err, data) => {
+    fs.readFile(usersFilePath, (err:any, data:any) => {
       if(err) {
         console.log(err)
-        return res.sendStatus('500')
+        return res.sendStatus(500)
       }
       const users = JSON.parse(data)
-      const user = users.find(user => user.fullName === req.user.fullName)
+      const user = users.find((user:any) => user.fullName === req.body.fullName)
   
       user ? res.json({ fullName: user.fullName}) : res.sendStatus(404)
     })
 })
 
 // AUTHENTICATE USER
-router.get("/isAuthenticated", (req, res) => {
+router.get("/isAuthenticated", (req: Request, res:Response) => {
     const token = req.cookies.token
   
     if (!token) return res.json({ isAuthenticated: false })
   
-    jwt.verify(token, "super-secret-key", (err, user) => {
+    jwt.verify(token, "super-secret-key", (err:any) => {
         if (err) return res.json({ isAuthenticated: false })
         return res.json({ isAuthenticated: true })
     })
   })
   
-module.exports = router
+export default router
