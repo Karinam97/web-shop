@@ -1,4 +1,4 @@
-import bodyParser from "body-parser"
+import * as bodyParser from 'body-parser'
 import cookie_parser from 'cookie-parser'
 import express from "express"
 import path from "path"
@@ -11,7 +11,7 @@ app.use(bodyParser.json(), cookie_parser())
 const port = process.env.PORT || 3000
 
 // Serve the static files from the public folder
-app.use(express.static(path.join(__dirname, "../client/public")))
+app.use(express.static(path.join(__dirname, "../client/public/homepage.html")))
 
 // Covers all account related routes e.g. /login, /registration
 app.use("/account", accountRouter);

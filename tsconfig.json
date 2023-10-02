@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "ES6",
-    "module": "CommonJS", // It throws errors if I set to ES2015 etc
+    "module": "ES2015",
     "moduleResolution": "node",
-    "outDir": "./server", // Use the same output directory as in webpack
-    "rootDir": "./server", // Use the same source directory as in webpack
+    "outDir": "./dist", // Output directory for TypeScript files
+    "rootDir": "./", // Source directory for TypeScript files (both client and server)
     "strict": true,
-    "esModuleInterop": true, // Enable compatibility with CommonJS modules
-    "forceConsistentCasingInFileNames": true // Enforce consistent file naming (case-sensitive)
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["server/**/*.ts"], // Specify which files should be included for compilation
-  "exclude": ["node_modules"] // Specify which files or directories should be excluded from compilation
+  "include": ["client/src/**/*.ts", "client/src/**/*.tsx", "server/**/*.ts"], // Include TypeScript files from both client and server
+  "exclude": ["node_modules"]
 }
