@@ -1,33 +1,48 @@
-const CopyPlugin = require("copy-webpack-plugin");
+import CopyPlugin from "copy-webpack-plugin"
+import path from 'path'
 
-module.exports = {
+const exportModules = {
     entry: {
-      server: './server/server.ts', // Change .js to .ts
-      // client: './server
+      server: './server/server.ts', // Entry point for server code
+      //client: './client/src/index.tsx', // Entry point for TypeScript React app (add once created)
+      account: { import: './client/src/maps/account.tsx', filename: './client/[name].js'}, // Entry point for TypeScript React app (add once created)
+      registration: { import: './client/src/maps/registration.tsx', filename: './client/[name].js'}, // Entry point for TypeScript React app (add once created)
+      login: { import: './client/src/maps/login.tsx', filename: './client/[name].js'}, // Entry point for TypeScript React app (add once created)
+      homepage: { import: './client/src/maps/homepage.tsx', filename: './client/[name].js'}, // Entry point for TypeScript React app (add once created)
     },
     output: {
-        filename: './server/server.js'
+      filename: './[name]/[name].js', // Use [name] to dynamically generate filenames
+      path: path.resolve('./', 'dist'),
     },
-    target: "node",
+    target: "node", // Set the target to node for server build
     resolve: {
-        extensions: ['.ts', '.js'], // Add TypeScript extensions , add jsx, tsx
-    },
+        extensions: ['.ts', '.tsx', '.js', '.jsx'], // Add TypeScript and JavaScript extensions
+      },
     module: {
         rules: [
             {
-                test: /\.tsx?$/, // Update the test pattern to include .ts and .tsx files
+                test: /\.?ts$/,
                 exclude: /node_modules/,
-                use: 'ts-loader', // Use ts-loader for TypeScript files
+                use: {
+                    loader: 'ts-loader',
+                  },
             },
-            // Add other rules for handling JavaScript, CSS, etc.
+            {
+                test: /\.?tsx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'ts-loader',
+                  },
+            },
         ],
     },
     plugins: [
         new CopyPlugin({
             patterns: [
                 { from: './data/users.json', to: 'data' },
-                { from: './client', to: 'client' },
             ],
         }),
     ],
 }
+
+export default exportModules
